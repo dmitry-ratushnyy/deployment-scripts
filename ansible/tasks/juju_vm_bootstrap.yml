@@ -1,0 +1,18 @@
+  - name: Bootstrap Juju on localhost with the controller named "overlord"
+    command: juju bootstrap localhost overlord
+    become_user: "{{ instance_user }}" 
+    become: yes
+
+  - name: Check juju controllers
+    command: juju controllers --refresh
+    register: juju_controllers_output
+
+  - debug:
+      var: juju_controllers_output.stdout_lines
+
+  - name: Check juju controllers in LDX
+    command: lxc list
+    register: lxc_list_output
+
+  - debug:
+      var: lxc_list_output.stdout_lines

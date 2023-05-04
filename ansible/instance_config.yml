@@ -1,0 +1,10 @@
+---
+instance_name_template: dmitry-ratushnyy_dev_server__
+instance_type: t3.2xlarge
+instance_key_name: dmitry.ratushnyy@canonical__aws
+instance_ami_id:  ami-064087b8d355e9051
+instance_security_group: default
+instance_subnet_id: subnet-00255b9d1652a1280
+instance_region: eu-north-1
+instance_user: ubuntu
+additional_storage_size_gb: 128

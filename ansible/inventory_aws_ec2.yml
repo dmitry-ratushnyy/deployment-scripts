@@ -1,0 +1,11 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - eu-north-1
+filters:
+  instance-state-name: running
+  tag:Name: "dmitry-ratushnyy_dev_server__*"
+hostnames:
+- tag:Name
+
+compose:
+  ansible_host: public_dns_name

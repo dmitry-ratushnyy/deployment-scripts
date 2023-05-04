@@ -1,0 +1,20 @@
+---
+- name: Install packages
+  hosts: "{{ instance_name_template }}{{ substrate }}__juju__{{juju_version}}"
+  gather_facts: yes
+  become: yes
+  vars:
+    instance_name_template: "dmitry-ratushnyy_dev_server__"
+    ansible_user: ubuntu
+
+  tasks:
+    - name: Install required packages
+      package:
+        name:
+          - git
+          - gcc
+          - python3-virtualenv
+        state: present
+        update_cache: yes
+  
+    

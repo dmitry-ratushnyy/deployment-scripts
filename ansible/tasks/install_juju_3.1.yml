@@ -1,0 +1,25 @@
+---
+- name: Create ~/downloads folder
+  file:
+    path: "/home/{{instance_user}}/downloads"
+    state: directory
+    mode: '0755'
+
+- name: Download Juju 3.1
+  ansible.builtin.get_url:
+    url: "https://launchpad.net/juju/3.1/3.1.0/+download/juju-3.1.0-linux-amd64.tar.xz"
+    dest: "/home/{{instance_user}}/downloads/juju-3.1.0-linux-amd64.tar.xz"
+    checksum: md5:c18ca46dd631977c535118cad87a0132
+
+- name: Unpack the Juju archive
+  unarchive:
+    src: "/home/{{instance_user}}/downloads/juju-3.1.0-linux-amd64.tar.xz"
+    dest: "/home/{{instance_user}}/downloads"
+    remote_src: yes
+
+- name: Install Juju
+  command:
+    cmd: install -o root -g root -m 0755 juju /usr/local/bin/juju
+    chdir: "/home/{{instance_user}}/downloads"
+  become: yes
+

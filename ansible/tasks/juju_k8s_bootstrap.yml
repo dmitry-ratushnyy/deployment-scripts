@@ -1,0 +1,22 @@
+---
+- name: Bootstrap Juju on microk8s with the controller named "overlord"
+  command: juju bootstrap microk8s overlord
+  become_user: "{{ instance_user }}" 
+  become: yes
+
+# TODO figure out why this fails
+
+# - name: Check juju controllers
+#   command: juju controllers --refresh
+#   register: juju_controllers_output
+
+# - debug:
+#       var: juju_controllers_output.stdout_lines
+
+- name: Get statefulset in controller-overlord namespace
+  ansible.builtin.shell: "microk8s.kubectl get statefulset --namespace controller-overlord"
+  register: statefulset_output
+  become_user: "{{ instance_user }}" 
+
+- debug:
+    var: statefulset_output.stdout_lines

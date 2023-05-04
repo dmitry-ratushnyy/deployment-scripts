@@ -1,0 +1,14 @@
+---
+- name: Configure LXD with auto settings
+  command: lxd init --auto
+
+- name: Disable LXD IPv6
+  command: lxc network set lxdbr0 ipv6.address none
+
+- name: Check LXD with lxc list
+  command: lxc list
+  register: lxc_list_output
+
+- name: Display LXD list output
+  debug:
+    var: lxc_list_output.stdout_lines

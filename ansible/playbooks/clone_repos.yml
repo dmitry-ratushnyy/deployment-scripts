@@ -1,0 +1,29 @@
+---
+- name: Cloning repositories
+  hosts: "{{ instance_name_template }}{{ substrate }}__juju__{{juju_version}}"
+  gather_facts: yes
+  become: yes
+  vars:
+    instance_name_template: "dmitry-ratushnyy_dev_server__"
+    ansible_user: ubuntu
+    
+  tasks:
+    - name: Include instance configuration
+      include_vars:
+        file: ../instance_config.yml
+
+    - name: Clone vm operator code
+      ansible.builtin.git:
+        repo: https://github.com/canonical/mongodb-operator.git
+        dest: /home/{{instance_user}}/development/src/mongodb-operator
+        update: yes
+      become_user: "{{ instance_user }}"
+      when: "'vm' in substrate"
+
+    - name: Clone k8s operator code
+      ansible.builtin.git:
+        repo: https://github.com/canonical/mongodb-k8s-operator.git
+        dest: /home/{{instance_user}}/development/src/mongodb-k8s-operator
+        update: yes
+      become_user: "{{ instance_user }}"
+      when: "'k8s' in substrate"

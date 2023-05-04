@@ -1,0 +1,23 @@
+---
+- name: "Configure juju {{juju_version}} on {{substrate}} substrate"
+  hosts: "{{ instance_name_template }}{{ substrate }}__juju__{{juju_version}}"
+  become: yes
+  vars:
+    instance_name_template: "dmitry-ratushnyy_dev_server__"
+    ansible_user: ubuntu
+    substrate: "{{ substrate }}"
+    juju_version: "{{ juju_version }}"
+    
+  tasks:
+    - name: Include instance configuration
+      include_vars:
+        file: ../instance_config.yml
+
+    - name: Include MicroK8s tasks
+      import_tasks: ../tasks/install_microk8s.yml
+
+    - name: Include install_juju tasks
+      import_tasks: ../tasks/install_juju_3.1.yml
+      
+    - name: Include juju bootstrap tasks
+      import_tasks: ../tasks/juju_k8s_bootstrap.yml

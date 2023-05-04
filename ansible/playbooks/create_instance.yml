@@ -1,0 +1,61 @@
+---
+- name: Create EC2 instance on AWS
+  hosts: localhost
+  gather_facts: no
+  vars:
+    ansible_ssh_private_key_file: ./aws.pem
+    
+  tasks:
+    - name: Include instance configuration
+      include_vars:
+        file: ../instance_config.yml
+
+    - name: Create EC2 instance
+      ec2_instance:
+        region: "{{ instance_region }}"
+        name: "{{ instance_name_template }}{{ substrate }}__juju__{{juju_version }}"
+        instance_type: "{{ instance_type }}"
+        key_name: "{{ instance_key_name }}"
+        image_id: "{{ instance_ami_id }}"
+        security_group: "{{ instance_security_group }}"
+        subnet_id: "{{ instance_subnet_id }}"
+        volumes:
+          - device_name: /dev/sda1
+            ebs:
+              volume_size: "{{ additional_storage_size_gb }}"
+              delete_on_termination: true
+        wait: yes
+      register: created_instance
+
+    - name: Wait for the instance to be running
+      ec2_instance_info:
+        region: "{{ instance_region }}"
+        instance_ids:
+          - "{{ created_instance.instances[0].instance_id }}"
+      register: instance_info
+      until: instance_info.instances[0].state.name == 'running'
+      retries: 30
+      delay: 10
+
+    - name: Adding tags to instance
+      amazon.aws.ec2_tag:
+        region: eu-north-1
+        resource: "{{instance_info.instances[0].instance_id}}"
+        state: present
+        tags:
+          substrate: "{{ substrate }}"
+          juju_version: "{{ juju_version }}"
+    
+    - name: Display created instance details
+      debug:
+        var: instance_info.instances
+  
+    - name: Wait for SSH port to become available
+      wait_for:
+        host: "{{ instance_info.instances[0].public_ip_address }}"
+        port: 22
+        delay: 10
+        timeout: 120
+      retries: 5
+      delay: 30
+      remote_user: "{{ instance_user }}"
