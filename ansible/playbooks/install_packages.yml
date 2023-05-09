@@ -18,7 +18,6 @@
         state: present
         update_cache: yes
   
-  
     - name: Add Helm GPG key
       ansible.builtin.apt_key:
         url: https://baltocdn.com/helm/signing.asc

@@ -1,4 +1,10 @@
 ---
+- name: Adding user to LXD group
+  ansible.builtin.user:
+    name: "{{ instance_user }}"
+    groups: lxd
+    append: yes
+
 - name: Configure LXD with auto settings
   command: lxd init --auto
 

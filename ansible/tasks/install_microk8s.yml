@@ -2,7 +2,7 @@
   ansible.builtin.snap:
     name: microk8s
     classic: yes
-    channel: stable
+    channel: 1.21
 
 - name: Add current user to microk8s group
   ansible.builtin.user:
@@ -11,7 +11,7 @@
     append: yes
 
 - name: Enable MicroK8s add-ons
-  ansible.builtin.shell: "microk8s.enable dns hostpath-storage ingress"
+  ansible.builtin.shell: "microk8s.enable dns storage ingress"
 
 - name: Create alias for microk8s.kubectl
   ansible.builtin.shell: "snap alias microk8s.kubectl kubectl"
