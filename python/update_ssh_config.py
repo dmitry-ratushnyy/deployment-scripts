@@ -5,8 +5,8 @@ import subprocess
 import os
 from utils import update_ssh_config
 
-
 INVENTORY_PATH = os.path.abspath('./ansible/inventory_aws_ec2.yml')
+
 
 def main():
     inventory_data = get_inventory_data()

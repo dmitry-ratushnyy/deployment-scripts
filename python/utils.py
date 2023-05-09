@@ -39,3 +39,13 @@ def remove_hosts_from_ssh_config(instance_names):
 
     with open(Config.SSH_CONFIG_PATH, 'w') as ssh_config_file:
         ssh_config_file.writelines(new_ssh_config_lines)
+
+
+def get_instance_name(instance):
+    instance_name = "N/A"
+    for tag in instance.tags:
+        if tag["Key"] == "Name":
+            instance_name = tag["Value"]
+            break
+
+    return instance_name

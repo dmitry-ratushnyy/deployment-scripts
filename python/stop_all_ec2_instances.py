@@ -1,7 +1,7 @@
 import boto3
 import sys
 import os
-from utils import remove_hosts_from_ssh_config
+from utils import remove_hosts_from_ssh_config, get_instance_name
 
 SSH_CONFIG_PATH = os.path.expanduser('~/.ssh/config')
 
@@ -22,16 +22,6 @@ def terminate_ec2_instances_by_tags(tag_dict):
         instance_names.append(instance_name)
 
     return instance_names
-
-
-def get_instance_name(instance):
-    instance_name = "N/A"
-    for tag in instance.tags:
-        if tag["Key"] == "Name":
-            instance_name = tag["Value"]
-            break
-
-    return instance_name
 
 
 if __name__ == '__main__':

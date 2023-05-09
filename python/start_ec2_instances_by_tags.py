@@ -2,6 +2,7 @@ import boto3
 import sys
 from utils import update_ssh_config
 
+
 def start_ec2_instances_by_tags(tag_dict):
     ec2 = boto3.resource('ec2')
 
@@ -29,6 +30,7 @@ def start_ec2_instances_by_tags(tag_dict):
         filtered_data["all"]["hosts"].append(filtered_host)
 
     return filtered_data
+
 
 def get_instance_name(instance):
     instance_name = "N/A"
