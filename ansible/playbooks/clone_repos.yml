@@ -27,3 +27,30 @@
         update: yes
       become_user: "{{ instance_user }}"
       when: "'k8s' in substrate"
+
+    - name: Clone jhack
+      ansible.builtin.git:
+        repo: https://github.com/PietroPasotti/jhack.git
+        dest: /home/{{instance_user}}/development/src/jhack
+        update: yes
+      become_user: "{{ instance_user }}"
+
+    - name: Create virtual environment
+      ansible.builtin.command:
+        cmd: "python3 -m venv /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator"
+        creates: "/home/{{ instance_user }}/development/venvs/mongodb-k8s-operator"
+      become_user: "{{ instance_user }}"
+
+    - name: Install requirements
+      ansible.builtin.pip:
+        requirements: "/home/{{ instance_user }}/development/src/mongodb-k8s-operator/requirements.txt"
+        virtualenv: /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator
+      become_user: "{{ instance_user }}"
+
+    - name: Install Tox
+      ansible.builtin.pip:
+        name: tox==4.5.1
+        virtualenv: /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator
+        virtualenv_python: /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator/bin/python
+      become_user: "{{ instance_user }}"
+      

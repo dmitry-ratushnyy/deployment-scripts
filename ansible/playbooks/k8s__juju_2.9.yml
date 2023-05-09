@@ -25,3 +25,7 @@
 
     - name: Include juju bootstrap tasks
       import_tasks: ../tasks/juju_k8s_bootstrap.yml
+
+    - name: Install LXD (required for snapcraft)
+      include_tasks: ../tasks/install_lxd.yml
+  

@@ -10,6 +10,14 @@
     groups: microk8s
     append: yes
 
+- name: Create .kube directory
+  ansible.builtin.file:
+    path: "/home/{{ instance_user }}/.kube"
+    state: directory
+    owner: "{{ instance_user }}"
+    group: "{{ instance_user }}"
+  
+
 - name: Enable MicroK8s add-ons
   ansible.builtin.shell: "microk8s.enable dns hostpath-storage ingress"
 
@@ -32,3 +40,4 @@
   delay: 10
   register: result
   until: result.rc == 0
+
