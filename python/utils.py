@@ -43,6 +43,8 @@ def remove_hosts_from_ssh_config(instance_names):
 
 def get_instance_name(instance):
     instance_name = "N/A"
+    if instance.tags is None:
+        return
     for tag in instance.tags:
         if tag["Key"] == "Name":
             instance_name = tag["Value"]
