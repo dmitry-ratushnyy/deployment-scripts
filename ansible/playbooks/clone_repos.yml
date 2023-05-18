@@ -8,6 +8,9 @@
     ansible_user: ubuntu
     
   tasks:
+    - name: Include vars
+      include_vars:
+        file: ../vars.yml
     - name: Include instance configuration
       include_vars:
         file: ../instance_config.yml
@@ -28,14 +31,14 @@
       become_user: "{{ instance_user }}"
       when: "'k8s' in substrate"
 
-    - name: Create symlink to resolve import issues (vm)
+    - name: Create symlink to resolve import issues in VSCode (vm)
       command: chdir=/home/{{ instance_user }}/development/src/mongodb-operator ln -s libs/charms charms
       args:
         creates: /home/{{ instance_user }}/development/src/mongodb-operator/charms
       become_user: "{{ ansible_user }}"
       when: "'vm' in substrate"
 
-    - name: Create symlink to resolve import issues (k8s)
+    - name: Create symlink to resolve import issues in VSCode (k8s)
       command: chdir=/home/{{ instance_user }}/development/src/mongodb-k8s-operator ln -s libs/charms charms
       args:
         creates: /home/{{ instance_user }}/development/src/mongodb-k8s-operator/charms
@@ -43,10 +46,10 @@
       when: "'k8s' in substrate"
 
     - name: Set global Git user name
-      command: git config --global user.name "Dmitry Ratushnyy"
+      command: git config --global user.name "{{git_user_name}}"
 
     - name: Set global Git user email
-      command: git config --global user.email "dmitry.ratushnyy@canonical.com"
+      command: git config --global user.email "{{git_user_email}}"
 
     - name: Create global gitignore if it doesn't exist
       command: git config --global core.excludesfile "/home/{{ instance_user }}/.gitignore.global"
@@ -87,19 +90,27 @@
 
     - name: Create virtual environment
       ansible.builtin.command:
-        cmd: "python3 -m venv /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator"
-        creates: "/home/{{ instance_user }}/development/venvs/mongodb-k8s-operator"
+        cmd: "python3 -m venv /home/{{ instance_user }}/development/venvs/mongodb-{{substrate}}-operator"
+        creates: "/home/{{ instance_user }}/development/venvs/mongodb-{{substrate}}-operator"
       become_user: "{{ instance_user }}"
 
     - name: Install requirements
       ansible.builtin.pip:
-        requirements: "/home/{{ instance_user }}/development/src/mongodb-k8s-operator/requirements.txt"
+        requirements: "/home/{{ instance_user }}/development/src/mongodb-operator/requirements.txt"
+        virtualenv: /home/{{ instance_user }}/development/venvs/mongodb-{{substrate}}-operator
+      become_user: "{{ instance_user }}"
+      when: "'vm' in substrate"
+
+    - name: Install requirements
+      ansible.builtin.pip:
+        requirements: "/home/{{ instance_user }}/development/src/mongodb-{{substrate}}-operator/requirements.txt"
         virtualenv: /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator
       become_user: "{{ instance_user }}"
+      when: "'k8s' in substrate"
 
     - name: Install Tox
       ansible.builtin.pip:
         name: tox==4.5.1
-        virtualenv: /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator
-        virtualenv_python: /home/{{ instance_user }}/development/venvs/mongodb-k8s-operator/bin/python
+        virtualenv: /home/{{ instance_user }}/development/venvs/mongodb-{{substrate}}-operator
+        virtualenv_python: /home/{{ instance_user }}/development/venvs/mongodb-{substrate}}-operator/bin/python
       become_user: "{{ instance_user }}"
