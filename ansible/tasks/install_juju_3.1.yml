@@ -5,15 +5,16 @@
     state: directory
     mode: '0755'
 
-- name: Download Juju 3.1
+# TODO make this configurable
+- name: Download Juju 3.1.5
   ansible.builtin.get_url:
-    url: "https://launchpad.net/juju/3.1/3.1.0/+download/juju-3.1.0-linux-amd64.tar.xz"
-    dest: "/home/{{instance_user}}/downloads/juju-3.1.0-linux-amd64.tar.xz"
-    checksum: md5:c18ca46dd631977c535118cad87a0132
+    url: "https://launchpad.net/juju/3.1/3.1.5/+download/juju-3.1.5-linux-amd64.tar.xz"
+    dest: "/home/{{instance_user}}/downloads/juju-3.1.5-linux-amd64.tar.xz"
+    checksum: md5:d50b79c2d024521f56ad48350346628f
 
 - name: Unpack the Juju archive
   unarchive:
-    src: "/home/{{instance_user}}/downloads/juju-3.1.0-linux-amd64.tar.xz"
+    src: "/home/{{instance_user}}/downloads/juju-3.1.5-linux-amd64.tar.xz"
     dest: "/home/{{instance_user}}/downloads"
     remote_src: yes
 

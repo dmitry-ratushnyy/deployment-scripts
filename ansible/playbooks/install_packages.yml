@@ -15,6 +15,7 @@
           - gcc
           - python3-venv
           - python3-pip
+          - snapcraft
         state: present
         update_cache: yes
   

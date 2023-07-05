@@ -31,20 +31,6 @@
       become_user: "{{ instance_user }}"
       when: "'k8s' in substrate"
 
-    - name: Create symlink to resolve import issues in VSCode (vm)
-      command: chdir=/home/{{ instance_user }}/development/src/mongodb-operator ln -s libs/charms charms
-      args:
-        creates: /home/{{ instance_user }}/development/src/mongodb-operator/charms
-      become_user: "{{ ansible_user }}"
-      when: "'vm' in substrate"
-
-    - name: Create symlink to resolve import issues in VSCode (k8s)
-      command: chdir=/home/{{ instance_user }}/development/src/mongodb-k8s-operator ln -s libs/charms charms
-      args:
-        creates: /home/{{ instance_user }}/development/src/mongodb-k8s-operator/charms
-      become_user: "{{ ansible_user }}"
-      when: "'k8s' in substrate"
-
     - name: Set global Git user name
       command: git config --global user.name "{{git_user_name}}"
 

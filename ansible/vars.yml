@@ -1,3 +1,5 @@
 ---
 git_user_name: "Dmitry Ratushnyy"
 git_user_email: dmitry.ratushnyy@canonical.com
+juju_35_file: juju-3.1.5-linux-amd64.tar.xz
+juju_35_url: https://launchpad.net/juju/3.1/3.1.5/+download/juju-3.1.5-linux-amd64.tar.xz
