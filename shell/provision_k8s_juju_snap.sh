@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SUBSTRATE='k8s'
-JUJU_VERSION=3.1
+JUJU_VERSION='snap'
 EXTRA_VARS="substrate=$SUBSTRATE juju_version=$JUJU_VERSION"
 AWS_INSTANCE_KEY_PATH="./aws.pem"
 ANSIBLE_FOLDER="./ansible"
@@ -11,7 +11,7 @@ ansible-playbook "${ANSIBLE_FOLDER}/playbooks/create_instance.yml" --extra-vars 
 playbooks=(
   "${ANSIBLE_FOLDER}/playbooks/install_packages.yml"
   "${ANSIBLE_FOLDER}/playbooks/clone_repos.yml"
-  "${ANSIBLE_FOLDER}/playbooks/${SUBSTRATE}__juju_${JUJU_VERSION}.yml"
+  "${ANSIBLE_FOLDER}/playbooks/${SUBSTRATE}_juju_${JUJU_VERSION}.yml"
 )
 
 for playbook in "${playbooks[@]}"; do

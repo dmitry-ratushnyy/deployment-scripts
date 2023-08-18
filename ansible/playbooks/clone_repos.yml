@@ -74,6 +74,12 @@
         update: yes
       become_user: "{{ instance_user }}"
 
+    - name: Ensure python3-venv is installed
+      apt:
+        name: python3.10-venv
+        state: present
+      become: yes
+
     - name: Create virtual environment
       ansible.builtin.command:
         cmd: "python3 -m venv /home/{{ instance_user }}/development/venvs/mongodb-{{substrate}}-operator"

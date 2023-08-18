@@ -1,6 +1,14 @@
+  - name: Create ~/downloads folder
+    file:
+      path: "/home/{{instance_user}}/.local/share/juju/"
+      state: directory
+      mode: '0755'
+    become_user: "{{ instance_user }}"
+    become: yes
+
   - name: Bootstrap Juju on localhost with the controller named "overlord"
     command: juju bootstrap localhost overlord
-    become_user: "{{ instance_user }}" 
+    become_user: "{{ instance_user }}"
     become: yes
 
   - name: Check juju controllers

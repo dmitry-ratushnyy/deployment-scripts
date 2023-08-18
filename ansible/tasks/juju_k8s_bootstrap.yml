@@ -1,7 +1,16 @@
 ---
+
+- name: Create ~/downloads folder
+  file:
+    path: "/home/{{instance_user}}/.local/share/juju/"
+    state: directory
+    mode: '0755'
+  become_user: "{{ instance_user }}"
+  become: yes
+
 - name: Bootstrap Juju on microk8s with the controller named "overlord"
   command: juju bootstrap microk8s overlord
-  become_user: "{{ instance_user }}" 
+  become_user: "{{ instance_user }}"
   become: yes
 
 # TODO figure out why this fails
