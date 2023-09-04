@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SUBSTRATE='vm'
-JUJU_VERSION=3.1
+JUJU_VERSION='3.1'
 EXTRA_VARS="substrate=$SUBSTRATE juju_version=$JUJU_VERSION"
 AWS_INSTANCE_KEY_PATH="./aws.pem"
 ANSIBLE_FOLDER="./ansible"

@@ -16,12 +16,16 @@
     - name: Include MicroK8s tasks
       import_tasks: ../tasks/install_microk8s.yml
 
-    - name: Include install_juju tasks
-      import_tasks: ../tasks/install_juju_3.1.yml
-      
+    - name: Install Juju using snap
+      ansible.builtin.snap:
+        name: juju
+        classic: yes
+        state: present
+      become: yes
+
     - name: Include juju bootstrap tasks
       import_tasks: ../tasks/juju_k8s_bootstrap.yml
 
-    - name: Install LXD (required for snapcraft)
+    - name: Install LXD (required for 0snapcraft)
       include_tasks: ../tasks/install_lxd.yml
   

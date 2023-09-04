@@ -2,9 +2,9 @@
   ansible.builtin.snap:
     name: microk8s
     classic: yes
-    channel: 1.25-strict
+    channel: 1.27-strict
 
-- name: Add current user to microk8s group
+- name: Add current user to snap_microk8s group
   ansible.builtin.user:
     name: "{{ instance_user }}"
     groups: snap_microk8s

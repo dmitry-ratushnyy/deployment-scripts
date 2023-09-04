@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SUBSTRATE='k8s'
-JUJU_VERSION='snap'
+SUBSTRATE='vm'
+JUJU_VERSION='2.9'
 EXTRA_VARS="substrate=$SUBSTRATE juju_version=$JUJU_VERSION"
 AWS_INSTANCE_KEY_PATH="./aws.pem"
 ANSIBLE_FOLDER="./ansible"

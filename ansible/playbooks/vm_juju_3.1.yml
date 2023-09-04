@@ -15,8 +15,12 @@
     - name: Include install_lxd tasks
       import_tasks: ../tasks/install_lxd.yml
 
-    - name: Include install_juju tasks
-      import_tasks: ../tasks/install_juju_3.1.yml
-      
+    - name: Install Juju using snap
+      ansible.builtin.snap:
+        name: juju
+        classic: yes
+        state: present
+      become: yes
+
     - name: Include juju bootstrap tasks
       import_tasks: ../tasks/juju_vm_bootstrap.yml
