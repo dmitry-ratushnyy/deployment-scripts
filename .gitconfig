@@ -1,0 +1,17 @@
+[user]
+        name = Dmitry Ratushnyy
+        email = dmitry.ratushnyy@canonical.com
+        signingkey = ~/.ssh/signing_key
+
+[gpg]
+        format = ssh
+
+[gpg.ssh]
+        allowedSignersFile = ~/.ssh/allowed_signers
+#        defaultKeyCommand = echo /home/ubuntu/.ssh/signing_key
+
+[core]
+        sshCommand = ssh -i ~/.ssh/signing_key
+
+[commit]
+        gpgsign = true

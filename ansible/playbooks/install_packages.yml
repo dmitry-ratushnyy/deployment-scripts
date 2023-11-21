@@ -48,3 +48,9 @@
       ansible.builtin.command:
         cmd: "sudo snap install charmcraft --classic --revision 1349"
       become: yes
+
+    - name: Pin charmcraft version
+      ansible.builtin.command:
+        cmd: "snap refresh charmcraft --hold=forever"
+      become: yes
+
